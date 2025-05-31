@@ -15,7 +15,7 @@ const categories = [
   {
     id: '1',
     title: 'Venues',
-    subtitle: 'Banquet Halls, Marriage garden',
+    subtitle: 'Banquet Halls, Marriage gardenn',
     color: '#B3E5FC',
     image: require('../assets/images/venues.jpg'),
   },
