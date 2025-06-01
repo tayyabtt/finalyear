@@ -166,10 +166,14 @@ export default function HomeScreen() {
           <Ionicons name="briefcase-outline" size={22} color="#777" />
           <Text style={styles.tabLabel}>Vendors</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.tabItem}>
-          <Ionicons name="mail-outline" size={22} color="#777" />
-          <Text style={styles.tabLabel}>E-Invite</Text>
-        </TouchableOpacity>
+        <TouchableOpacity
+  style={styles.tabItem}
+  onPress={() => router.push('/einvite')}
+>
+  <Ionicons name="mail-outline" size={22} color="#777" />
+  <Text style={styles.tabLabel}>E-Invite</Text>
+</TouchableOpacity>
+
         <TouchableOpacity style={styles.tabItem}>
           <Ionicons name="chatbubbles-outline" size={22} color="#777" />
           <Text style={styles.tabLabel}>Messages</Text>
