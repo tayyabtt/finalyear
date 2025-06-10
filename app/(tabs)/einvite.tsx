@@ -1,7 +1,3 @@
-// app/(tabs)/einvite.tsx – Sophisticated E‑Invite builder (remote placeholders)
-// Updated: fixed TypeScript errors (shotRef optional & ResizeMode enum)
-// Requires: expo-av, react-native-modal, react-native-view-shot, expo-file-system.
-
 import { Ionicons } from '@expo/vector-icons';
 import { ResizeMode, Video } from 'expo-av';
 import * as FileSystem from 'expo-file-system';

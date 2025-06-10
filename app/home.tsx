@@ -15,12 +15,25 @@ import {
 
 export default function HomeScreen() {
   const router = useRouter();
-  const [selectedCity, setSelectedCity] = useState('All Cities');
+  const [selectedCity, setSelectedCity] = useState<string>('All Cities');
 
-  const cities = [
-    'All Cities', 'Karachi', 'Lahore', 'Islamabad', 'Rawalpindi',
-    'Faisalabad', 'Multan', 'Peshawar', 'Quetta', 'Sialkot',
-    'Gujranwala', 'Hyderabad', 'Bahawalpur', 'Sargodha', 'Abbottabad', 'Mirpur'
+  const cities: string[] = [
+    'All Cities',
+    'Karachi',
+    'Lahore',
+    'Islamabad',
+    'Rawalpindi',
+    'Faisalabad',
+    'Multan',
+    'Peshawar',
+    'Quetta',
+    'Sialkot',
+    'Gujranwala',
+    'Hyderabad',
+    'Bahawalpur',
+    'Sargodha',
+    'Abbottabad',
+    'Mirpur',
   ];
 
   const trendingItems = [
@@ -45,9 +58,9 @@ export default function HomeScreen() {
   ];
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-        {/* Header Row */}
+        {/* Header */}
         <View style={styles.headerRow}>
           <TouchableOpacity onPress={() => router.back()}>
             <Ionicons name="arrow-back" size={24} color="#e22f2f" />
@@ -59,7 +72,7 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        {/* City Picker Dropdown */}
+        {/* City Picker */}
         <View style={styles.cityPickerWrapper}>
           <Picker
             selectedValue={selectedCity}
@@ -67,16 +80,19 @@ export default function HomeScreen() {
             style={styles.cityPicker}
             dropdownIconColor="#e22f2f"
           >
-            {cities.map((city, index) => (
-              <Picker.Item key={index} label={city} value={city} />
+            {cities.map((city) => (
+              <Picker.Item key={city} label={city} value={city} />
             ))}
           </Picker>
         </View>
 
-        {/* Hero Section */}
+        {/* Hero */}
         <Text style={styles.heroAbove}>Explore More</Text>
         <View style={styles.heroBanner}>
-          <Image source={require('../assets/images/explore.jpg')} style={styles.heroImage} />
+          <Image
+            source={require('../assets/images/explore.jpg')}
+            style={styles.heroImage}
+          />
         </View>
 
         {/* Planning Tools */}
@@ -118,7 +134,7 @@ export default function HomeScreen() {
           ))}
         </ScrollView>
 
-        {/* Wedding Checklist */}
+        {/* Checklist */}
         <Text style={styles.sectionTitle}>Wedding Checklist</Text>
         <View style={styles.checklistCard}>
           <View style={styles.checklistProgress}>
@@ -152,35 +168,29 @@ export default function HomeScreen() {
 
       {/* Bottom Tabs */}
       <View style={styles.bottomTabs}>
-        <TouchableOpacity
-          style={styles.tabItem}
-          onPress={() => router.push('../(tabs)/index')}
-        >
+        <TouchableOpacity style={styles.tabItem} onPress={() => router.push('../(tabs)/index')}>
           <Ionicons name="home" size={25} color="#e22f2f" />
           <Text style={styles.tabLabel}>Home</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.tabItem}
-          onPress={() => router.push('/Vendors')}
-        >
+
+        <TouchableOpacity style={styles.tabItem} onPress={() => router.push('/Vendors')}>
           <Ionicons name="briefcase-outline" size={22} color="#777" />
           <Text style={styles.tabLabel}>Vendors</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-  style={styles.tabItem}
-  onPress={() => router.push('/einvite')}
->
-  <Ionicons name="mail-outline" size={22} color="#777" />
-  <Text style={styles.tabLabel}>E-Invite</Text>
-</TouchableOpacity>
 
-        <TouchableOpacity style={styles.tabItem}>
+        <TouchableOpacity style={styles.tabItem} onPress={() => router.push('/einvite')}>
+          <Ionicons name="mail-outline" size={22} color="#777" />
+          <Text style={styles.tabLabel}>E-Invite</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.tabItem} onPress={() => router.push('/inbox')}>
           <Ionicons name="chatbubbles-outline" size={22} color="#777" />
           <Text style={styles.tabLabel}>Messages</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.tabItem}>
+
+        <TouchableOpacity style={styles.tabItem} onPress={() => router.push('/event')}>
           <Ionicons name="bulb-outline" size={22} color="#777" />
-          <Text style={styles.tabLabel}>Ideas</Text>
+          <Text style={styles.tabLabel}>Event</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -197,6 +207,7 @@ const styles = StyleSheet.create({
   },
   headerIcons: { flexDirection: 'row', alignItems: 'center' },
   icon: { marginHorizontal: 6 },
+
   cityPickerWrapper: {
     backgroundColor: '#f8f8f8',
     borderRadius: 8,
@@ -204,6 +215,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   cityPicker: { width: '100%', height: 50, color: '#e22f2f', paddingLeft: 10 },
+
   heroAbove: {
     fontSize: 22,
     fontWeight: 'bold',
@@ -220,27 +232,83 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   heroImage: { width: '100%', height: '100%', position: 'absolute' },
-  sectionTitle: { fontSize: 18, fontWeight: '700', marginTop: 24, marginBottom: 12 },
-  input: { backgroundColor: '#f1f1f1', borderRadius: 12, padding: 14, marginBottom: 12 },
-  searchBtn: { backgroundColor: '#e22f2f', paddingVertical: 14, borderRadius: 12, alignItems: 'center', marginBottom: 20 },
+
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    marginTop: 24,
+    marginBottom: 12,
+  },
+
+  input: {
+    backgroundColor: '#f1f1f1',
+    borderRadius: 12,
+    padding: 14,
+    marginBottom: 12,
+  },
+  searchBtn: {
+    backgroundColor: '#e22f2f',
+    paddingVertical: 14,
+    borderRadius: 12,
+    alignItems: 'center',
+    marginBottom: 20,
+  },
   searchText: { color: '#fff', fontWeight: '600' },
-  cardGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', gap: 10 },
-  toolCardBox: { backgroundColor: '#ffe4e6', borderRadius: 16, padding: 16, width: '48%', marginBottom: 12 },
+
+  cardGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    gap: 10,
+  },
+  toolCardBox: {
+    backgroundColor: '#ffe4e6',
+    borderRadius: 16,
+    padding: 16,
+    width: '48%',
+    marginBottom: 12,
+  },
   toolCardText: { fontSize: 14, fontWeight: '600' },
+
   storiesRow: { flexDirection: 'row', marginBottom: 12 },
   storyBubble: { alignItems: 'center', marginRight: 16 },
   storyImage: { width: 64, height: 64, borderRadius: 32, marginBottom: 6 },
   storyText: { fontSize: 12, fontWeight: '600' },
-  checklistCard: { backgroundColor: '#f9f0f3', borderRadius: 16, padding: 16, flexDirection: 'row', alignItems: 'center', marginBottom: 24 },
-  checklistProgress: { width: 60, height: 60, borderRadius: 30, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center', marginRight: 16 },
+
+  checklistCard: {
+    backgroundColor: '#f9f0f3',
+    borderRadius: 16,
+    padding: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 24,
+  },
+  checklistProgress: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 16,
+  },
   checklistPercent: { color: '#e22f2f', fontWeight: 'bold' },
   checklistLabel: { fontWeight: '600' },
   checklistSub: { fontSize: 13, color: '#777', marginBottom: 4 },
   checklistItem: { fontSize: 13, color: '#555' },
+
   trendCard: { width: 120, marginRight: 16, alignItems: 'center' },
   trendImage: { width: 120, height: 80, borderRadius: 12, marginBottom: 6 },
   trendTitle: { fontWeight: '600', fontSize: 14, textAlign: 'center' },
-  bottomTabs: { flexDirection: 'row', justifyContent: 'space-around', paddingVertical: 12, borderTopWidth: 1, borderColor: '#eee', backgroundColor: '#fff' },
+
+  bottomTabs: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    paddingVertical: 12,
+    borderTopWidth: 1,
+    borderColor: '#eee',
+    backgroundColor: '#fff',
+  },
   tabItem: { alignItems: 'center' },
   tabLabel: { fontSize: 12, color: '#777', marginTop: 4 },
 });
