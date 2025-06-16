@@ -1,8 +1,10 @@
 // app/vendors.tsx
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import { useRouter } from 'expo-router';
 import React, { useEffect } from 'react';
 import {
+  BackHandler,
   FlatList,
   Image,
   LogBox,
@@ -12,10 +14,10 @@ import {
   View,
 } from 'react-native';
 
-/* Ignore the noisy nested-list warning globally */
+/* Ignore noisy warnings */
 LogBox.ignoreLogs([
-  'VirtualizedLists should never be nested',   // list-in-scroll warning
-  'Text strings must be rendered within a <Text>', // stray text warning
+  'VirtualizedLists should never be nested',
+  'Text strings must be rendered within a <Text>',
 ]);
 
 const categories = [
@@ -30,15 +32,26 @@ const categories = [
 ];
 
 export default function VendorsScreen() {
-  const router = useRouter();
+  const router      = useRouter();
+  const navigation  = useNavigation();
 
-  /* one-time effect: officially ignore only once */
+  /* ⬇️ Intercept back-gestures & hardware-back */
   useEffect(() => {
-    return () => {
-      // nothing to clean up
-    };
-  }, []);
+    const goHome = () => { router.push('/home'); return true; };
 
+    /* Android hardware back */
+    const backSub = BackHandler.addEventListener('hardwareBackPress', goHome);
+
+    /* iOS swipe-back / header back */
+    const navSub  = navigation.addListener('beforeRemove', e => {
+      e.preventDefault();        // cancel default pop
+      goHome();
+    });
+
+    return () => { backSub.remove(); navSub(); };
+  }, [navigation, router]);
+
+  /* list item */
   const renderItem = ({ item }: { item: typeof categories[0] }) => (
     <TouchableOpacity
       style={[styles.itemContainer, { backgroundColor: item.color }]}
@@ -63,34 +76,34 @@ export default function VendorsScreen() {
           <Ionicons name="arrow-back" size={28} color="#e22f2f" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Vendors</Text>
-        <View style={{ width: 28 }} /> {/* spacer */}
+        <View style={{ width: 28 }} />
       </View>
 
-      {/* category list */}
+      {/* list */}
       <FlatList
         data={categories}
         keyExtractor={item => item.id}
         renderItem={renderItem}
         contentContainerStyle={styles.listContainer}
         showsVerticalScrollIndicator={false}
-        nestedScrollEnabled   // <-- suppress nested-list warning
       />
     </View>
   );
 }
 
+/* ───────── styles ───────── */
 const styles = StyleSheet.create({
-  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-            paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: '#eee',
-            backgroundColor: '#fff' },
-  headerTitle: { fontSize: 20, fontWeight: '700', color: '#e22f2f' },
+  header: { flexDirection:'row',alignItems:'center',justifyContent:'space-between',
+            paddingHorizontal:16,paddingVertical:12,borderBottomWidth:1,borderBottomColor:'#eee',
+            backgroundColor:'#fff' },
+  headerTitle:{fontSize:20,fontWeight:'700',color:'#e22f2f'},
 
-  listContainer: { padding: 16 },
-  itemContainer: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-                   borderRadius: 12, padding: 12, marginBottom: 12 },
-  textContainer: { flex: 1 },
-  titleRow: { flexDirection: 'row', alignItems: 'center' },
-  title: { fontSize: 16, fontWeight: '600', color: '#333', marginRight: 8 },
-  subtitle: { fontSize: 12, color: '#555', marginTop: 4 },
-  imagePlaceholder: { width: 60, height: 60, borderRadius: 8, resizeMode: 'cover' },
+  listContainer:{padding:16},
+  itemContainer:{flexDirection:'row',alignItems:'center',justifyContent:'space-between',
+                 borderRadius:12,padding:12,marginBottom:12},
+  textContainer:{flex:1},
+  titleRow:{flexDirection:'row',alignItems:'center'},
+  title:{fontSize:16,fontWeight:'600',color:'#333',marginRight:8},
+  subtitle:{fontSize:12,color:'#555',marginTop:4},
+  imagePlaceholder:{width:60,height:60,borderRadius:8,resizeMode:'cover'},
 });
