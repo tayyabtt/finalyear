@@ -1,0 +1,9 @@
+# Ignore admin panel (separate web app)
+app/(tabs)/shaadiset-admin-panel/**
+
+# Ignore node_modules in admin panel
+**/shaadiset-admin-panel/node_modules/**
+
+# Ignore admin panel build files
+**/shaadiset-admin-panel/build/**
+**/shaadiset-admin-panel/.git/**

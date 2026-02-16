@@ -1,0 +1,21 @@
+# Ignore admin panel (separate React web app)
+app/(tabs)/shaadiset-admin-panel/
+
+# Ignore all markdown documentation files
+*.md
+!README.md
+
+# Ignore git
+.git/
+.gitignore
+
+# Ignore IDE files
+.vscode/
+.idea/
+
+# Ignore test files
+**/__tests__/
+**/*.test.ts
+**/*.test.tsx
+**/*.spec.ts
+**/*.spec.tsx
